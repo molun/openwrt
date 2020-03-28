@@ -3,10 +3,10 @@
 # Copyright (C) https://github.com/yfdoor
 
 # Define IP
-sed -i 's/192.168.1.1/192.168.100.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 
 # Define My Package
-git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/yfdoor/luci-app-adguardhome
+git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/molun/luci-app-adguardhome
 
 # Define Default
 cat > package/lean/default-settings/files/zzz-default-settings <<-EOF
