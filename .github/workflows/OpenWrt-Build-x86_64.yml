@@ -88,7 +88,7 @@ jobs:
         if: env.PKG_LIENOL == 'true' && env.REPO_URL != 'https://github.com/Lienol/openwrt.git'
         run: |
           cd openwrt
-          echo "src-git yfdoor https://github.com/Lienol/openwrt-package" >> feeds.conf.default
+          echo "src-git molun https://github.com/Lienol/openwrt-package" >> feeds.conf.default
 
       # 更新Feed
       - name: Update Feeds
@@ -110,7 +110,7 @@ jobs:
       # SSH连接
       - name: SSH Connection
         if: env.SSH_ACTION == 'true'
-        uses: yfdoor/debugger-action@master
+        uses: molun/debugger-action@master
 
       # 下载依赖
       - name: Make Download
