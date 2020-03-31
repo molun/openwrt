@@ -22,17 +22,19 @@ env:
   #####   2：编译第三方源码
   #####   3：编译官方源码 & 第三方 Package
   #####################################################
-  REPO_URL: https://github.com/openwrt/openwrt.git
-  ## REPO_URL: https://github.com/coolsnowwolf/lede.git
+  ## REPO_URL: https://github.com/openwrt/openwrt.git
+  REPO_URL: https://github.com/coolsnowwolf/lede.git
   ## REPO_URL: https://github.com/Lienol/openwrt.git
-  REPO_BRANCH: v19.07.2
+  ## REPO_BRANCH: v19.07.2
+  REPO_BRANCH: master
+  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY_FILE: DIY.sh
   CON_FILE: hc5962
   PKG_LEAN: true
-  PKG_LIENOL: true
-  SSH_ACTION: true
+  PKG_LIENOL: false
+  SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: false
+  UPLOAD_RELEASE: true
   UPLOAD_FIRMWARE: true
   #####################################################
 
