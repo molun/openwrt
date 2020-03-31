@@ -8,8 +8,8 @@ sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generat
 # Define My Package
 git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/molun/luci-app-adguardhome
 git clone https://github.com/tty228/luci-app-serverchan.git                 package/molun/luci-app-serverchan
-git clone https://github.com/vernesong/OpenClash.git                 package/molun/OpenClash
 git clone https://github.com/frainzy1477/luci-app-clash.git                 package/molun/luci-app-clash
+git clone https://github.com/vernesong/OpenClash.git                 package/molun/OpenClash
 
 # Define Default
 cat > package/lean/default-settings/files/zzz-default-settings <<-EOF
