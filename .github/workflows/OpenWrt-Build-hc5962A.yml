@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/yfdoor
 
-name: OpenWrt-Build-hc5962A
+name: OpenWrt-Build-HC5962A
 
 # 触发条件
 on:
@@ -26,10 +26,10 @@ env:
   ## REPO_URL: https://github.com/coolsnowwolf/lede.git
   REPO_URL: https://github.com/Lienol/openwrt.git
   ## REPO_BRANCH: v19.07.2
-  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
-  REPO_BRANCH: dev-master
+  ## REPO_BRANCH: master 
+  REPO_BRANCH: dev-master #dev-19.07 dev-lean-lede
   DIY_FILE: DIY.sh
-  CON_FILE: hc5962A
+  CON_FILE: HC5962A
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
@@ -177,7 +177,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           tag_name: ${{ env.RELEASE_DATE }}_TAG
-          release_name: OpenWrt_${{ env.CON_FILE }}_${{ env.RELEASE_DATE }}
+          release_name: OpenWrt_MOLUN_${{ env.CON_FILE }}_${{ env.RELEASE_DATE }}
           body: |
             1、本固件为自动编译
             2、发行版中只提供完整的固件

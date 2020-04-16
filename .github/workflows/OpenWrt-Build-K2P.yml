@@ -31,7 +31,7 @@ env:
   DIY_FILE: DIY.sh
   CON_FILE: K2P
   PKG_LEAN: true
-  PKG_LIENOL: false
+  PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
   UPLOAD_RELEASE: true
