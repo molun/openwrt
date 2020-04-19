@@ -31,7 +31,7 @@ env:
   DIY_FILE: DIY.sh
   CON_FILE: B70
   PKG_LEAN: true
-  PKG_LIENOL: true
+  PKG_LIENOL: false
   SSH_ACTION: false
   UPLOAD_BRANCH: true
   UPLOAD_RELEASE: true
