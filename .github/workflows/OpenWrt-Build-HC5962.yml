@@ -32,9 +32,9 @@ env:
   CON_FILE: HC5962
   PKG_LEAN: true
   PKG_LIENOL: true
-  SSH_ACTION: true
+  SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: false
+  UPLOAD_RELEASE: true
   UPLOAD_FIRMWARE: true
   #####################################################
 
@@ -113,6 +113,7 @@ jobs:
       - name: SSH Connection
         if: env.SSH_ACTION == 'true'
         uses: molun/debugger-action@master
+      #  uses: P3TERX/debugger-action@master
 
       # 下载依赖
       - name: Make Download
