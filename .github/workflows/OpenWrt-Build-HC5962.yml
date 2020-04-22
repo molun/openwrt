@@ -1,5 +1,5 @@
 # This is free software, lisence use MIT.
-# Copyright (C) https://github.com/yfdoor
+# Copyright (C) https://github.com/molun
 
 name: OpenWrt-Build-HC5962
 
@@ -23,18 +23,18 @@ env:
   #####   3：编译官方源码 & 第三方 Package
   #####################################################
   ## REPO_URL: https://github.com/openwrt/openwrt.git
-  ## REPO_URL: https://github.com/coolsnowwolf/lede.git
-  REPO_URL: https://github.com/Lienol/openwrt.git
   ## REPO_BRANCH: v19.07.2
-  ## REPO_BRANCH: master dev-19.07 dev-lean-lede
-  REPO_BRANCH: dev-master
+  ## REPO_URL: https://github.com/coolsnowwolf/lede.git
+  ## REPO_BRANCH: master
+  REPO_URL: https://github.com/Lienol/openwrt.git
+  REPO_BRANCH: dev-master #dev-19.07 dev-lean-lede
   DIY_FILE: DIY.sh
   CON_FILE: HC5962
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: true
+  UPLOAD_RELEASE: false
   UPLOAD_FIRMWARE: true
   #####################################################
 
@@ -54,10 +54,10 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           docker rmi `docker images -q`
-          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
-          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+          sudo swapoff /swapfile
+          sudo rm -rf /swapfile /etc/apt/sources.list.d /usr/share/dotnet /usr/local/lib/android /opt/ghc /etc/mysql /etc/php
           sudo -E apt-get update
-          sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler
+          sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
           echo "======================="
@@ -78,7 +78,7 @@ jobs:
           mkdir -p package/lean
           svn checkout https://github.com/coolsnowwolf/lede/trunk/package/lean/ package/lean
           sudo rm -rf package/lean/.svn/
-       
+
           mkdir -p tools/ucl && wget -P tools/ucl https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/ucl/Makefile 
           mkdir -p tools/upx && wget -P tools/upx https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/upx/Makefile
 
@@ -113,7 +113,6 @@ jobs:
       - name: SSH Connection
         if: env.SSH_ACTION == 'true'
         uses: molun/debugger-action@master
-      #  uses: P3TERX/debugger-action@master
 
       # 下载依赖
       - name: Make Download
@@ -178,7 +177,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           tag_name: ${{ env.RELEASE_DATE }}_TAG
-          release_name: OpenWrt_MOLUN_${{ env.CON_FILE }}_${{ env.RELEASE_DATE }}
+          release_name: OpenWrt_${{ env.CON_FILE }}_${{ env.RELEASE_DATE }}
           body: |
             1、本固件为自动编译
             2、发行版中只提供完整的固件
