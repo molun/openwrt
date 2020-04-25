@@ -1,7 +1,7 @@
 # OpenWrt
 
 ## 简介：
-- 基于[yfdoor OpenWrt](https://github.com/yfdoor/openwrt)的自用 OpenWrt 定制项目
+- 基于[【yfdoor/OpenWrt】](https://github.com/yfdoor/openwrt)的自用 OpenWrt 定制项目
 
 ## 功能：
 - 可以支持三种编译模式 
