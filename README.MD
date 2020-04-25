@@ -1,7 +1,7 @@
 # OpenWrt
 
 ## 简介：
-- 自用 OpenWrt 定制项目
+- 基于[yfdoor OpenWrt](https://github.com/yfdoor/openwrt)的自用 OpenWrt 定制项目
 
 ## 功能：
 - 可以支持三种编译模式 
@@ -46,8 +46,8 @@
   - /target/linux/x86/Makefile：可定义对应平台默认安装的 packages（X86示例）
   
 ## 发布:
-  - [最新发布](https://github.com/yfdoor/OpenWrt/releases/latest)
-  
+  - [最新发布](https://github.com/molun/OpenWrt/releases/latest)
+ 
 ## 感谢：
   - [OpenWrt](https://github.com/openwrt/openwrt)
   - [Lean LEDE](https://github.com/coolsnowwolf/lede)
