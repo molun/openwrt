@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-B70-test
+name: OpenWrt-Build-B70_test
 
 # 触发条件
 on:
@@ -28,8 +28,9 @@ env:
   REPO_BRANCH: master
   ## REPO_URL: https://github.com/Lienol/openwrt.git
   ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
-  DIY_FILE: DIY.sh
-  CON_FILE: B70-test
+  DIY0_FILE: DIY0.sh
+  DIY1_FILE: DIY1.sh
+  CON_FILE: B70_test
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
@@ -92,6 +93,13 @@ jobs:
           cd openwrt
           echo "src-git molun https://github.com/Lienol/openwrt-package" >> feeds.conf.default
 
+      # 自定插件
+      - name: Download My Package
+        run: |
+          chmod +x script/$DIY0_FILE
+          cd openwrt
+          ../script/$DIY0_FILE
+
       # 更新Feed
       - name: Update Feeds
         run: |
@@ -104,9 +112,9 @@ jobs:
         run: |
           [ -e files ] && cp -r -f files openwrt/files
           [ -e $CONFIG_FILE ] && cp -r -f config.d/$CON_FILE openwrt/.config
-          chmod +x script/$DIY_FILE
+          chmod +x script/$DIY1_FILE
           cd openwrt
-          ../script/$DIY_FILE
+          ../script/$DIY1_FILE
           make defconfig
 
       # SSH连接

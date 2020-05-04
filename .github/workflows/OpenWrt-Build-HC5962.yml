@@ -27,14 +27,14 @@ env:
   ## REPO_URL: https://github.com/coolsnowwolf/lede.git
   ## REPO_BRANCH: master
   REPO_URL: https://github.com/Lienol/openwrt.git
-  REPO_BRANCH: dev-master #dev-19.07 dev-lean-lede
+  REPO_BRANCH: dev-19.07 #dev-master dev-lean-lede
   DIY_FILE: DIY.sh
   CON_FILE: HC5962
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: false
+  UPLOAD_RELEASE: true
   UPLOAD_FIRMWARE: true
   #####################################################
 
