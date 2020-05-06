@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-B70_test
+name: OpenWrt-Build-Redmi-AC2100
 
 # 触发条件
 on:
@@ -30,7 +30,7 @@ env:
   ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
-  CON_FILE: B70_test
+  CON_FILE: Redmi-AC2100
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
