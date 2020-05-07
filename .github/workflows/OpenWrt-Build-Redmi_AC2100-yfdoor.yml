@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-Redmi_AC2100
+name: OpenWrt-Build-Redmi_AC2100 yfdoor
 
 # 触发条件
 on:
@@ -111,7 +111,7 @@ jobs:
       - name: Config File
         run: |
           [ -e files ] && cp -r -f files openwrt/files
-          [ -e $CONFIG_FILE ] && cp -r -f config.d/$CON_FILE openwrt/.config
+          [ -e config.d/$CONF_FILE ] && cp -r -f config.d/$CONF_FILE openwrt/.config
           chmod +x script/$DIY1_FILE
           cd openwrt
           ../script/$DIY1_FILE
