@@ -6,4 +6,4 @@
 git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/molun/luci-app-adguardhome
 git clone https://github.com/vernesong/OpenClash.git                                package/molun/luci-app-openclash
 
-echo "src-git molun https://github.com/fw876/helloworld" >> feeds.conf.default
+echo "src-git fw876 https://github.com/fw876/helloworld" >> feeds.conf.default
