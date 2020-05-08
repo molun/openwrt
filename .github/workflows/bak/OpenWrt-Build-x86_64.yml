@@ -28,9 +28,8 @@ env:
   ## REPO_BRANCH: master
   ## REPO_URL: https://github.com/Lienol/openwrt.git
   ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
-  DIY0_FILE: DIY0.sh
-  DIY1_FILE: DIY1.sh
-  CONF_FILE: x86_64
+  DIY_FILE: DIY.sh
+  CON_FILE: x86_64
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
@@ -93,28 +92,21 @@ jobs:
           cd openwrt
           echo "src-git molun https://github.com/Lienol/openwrt-package" >> feeds.conf.default
 
-      # 自定插件
-      - name: Download My Package
-        run: |
-          chmod +x script/$DIY0_FILE
-          cd openwrt
-          ../script/$DIY0_FILE
-          
       # 更新Feed
       - name: Update Feeds
         run: |
           cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-          
+
       # 配置文件
       - name: Config File
         run: |
           [ -e files ] && cp -r -f files openwrt/files
-          [ -e config.d/$CONF_FILE ] && cp -r -f config.d/$CONF_FILE openwrt/.config
-          chmod +x script/$DIY1_FILE
+          [ -e $CONFIG_FILE ] && cp -r -f config.d/$CON_FILE openwrt/.config
+          chmod +x script/$DIY_FILE
           cd openwrt
-          ../script/$DIY1_FILE
+          ../script/$DIY_FILE
           make defconfig
 
       # SSH连接
@@ -156,8 +148,8 @@ jobs:
           git config user.name "molun"
           git config user.email "molun@github.com"
           git add .
-          git commit -m "Update OpenWrt_"$CONF_FILE
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/molun/OpenWrt.git HEAD:OpenWrt_$CONF_FILE
+          git commit -m "Update OpenWrt_"$CON_FILE
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/molun/OpenWrt.git HEAD:OpenWrt_$CON_FILE
 
       # 准备固件
       - name: Organize Artifact
@@ -173,7 +165,7 @@ jobs:
         uses: actions/upload-artifact@master
         if: env.UPLOAD_FIRMWARE == 'true' && steps.compile.outputs.status == 'success'
         with:
-          name: OpenWrt_Firmware_${{ env.CONF_FILE }}
+          name: OpenWrt_Firmware_${{ env.CON_FILE }}
           path: ./openwrt/bin/targets/
 
       # 创建发行
@@ -185,7 +177,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           tag_name: ${{ env.RELEASE_DATE }}_TAG
-          release_name: OpenWrt_${{ env.CONF_FILE }}_${{ env.RELEASE_DATE }}
+          release_name: OpenWrt_${{ env.CON_FILE }}_${{ env.RELEASE_DATE }}
           body: |
             1、本固件为自动编译
             2、发行版中只提供完整的固件
@@ -208,5 +200,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./openwrt/bin/OpenWrt_Firmware.zip
-          asset_name: OpenWrt_MOLUN_${{ env.CONF_FILE }}_${{ env.RELEASE_DATE }}.zip
+          asset_name: OpenWrt_MOLUN_${{ env.CON_FILE }}_${{ env.RELEASE_DATE }}.zip
           asset_content_type: application/zip
