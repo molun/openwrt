@@ -33,7 +33,7 @@ env:
   CONF_FILE: Redmi-AC2100
   PKG_LEAN: false
   PKG_LIENOL: true
-  SSH_ACTION: true
+  SSH_ACTION: false
   UPLOAD_BRANCH: true
   UPLOAD_RELEASE: false
   UPLOAD_FIRMWARE: true
