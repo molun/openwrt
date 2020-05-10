@@ -13,7 +13,7 @@ sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 #echo "src-git molun https://github.com/fw876/helloworld" >> feeds.conf.default
 
 # Add a feed source
-sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
+#sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
 #sed -i '$a src-git molun https://github.com/fw876/helloworld" >> feeds.conf.default
 
 git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/molun/luci-app-adguardhome
