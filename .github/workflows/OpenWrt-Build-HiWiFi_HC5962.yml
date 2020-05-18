@@ -27,7 +27,7 @@ env:
   ## REPO_URL: https://github.com/coolsnowwolf/lede.git
   ## REPO_BRANCH: master
   REPO_URL: https://github.com/Lienol/openwrt.git
-  REPO_BRANCH: dev-19.07 #dev-lean-lede dev-master 
+  REPO_BRANCH: dev-master
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
   CONF_FILE: HiWiFi_HC5962
