@@ -31,8 +31,8 @@ env:
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
   CONF_FILE: Phicomm_K2P
-  PKG_LEAN: true
-  PKG_LIENOL: true
+  PKG_LEAN: false
+  PKG_LIENOL: false
   SSH_ACTION: false
   UPLOAD_BRANCH: true
   UPLOAD_RELEASE: false

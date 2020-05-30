@@ -6,9 +6,11 @@
 sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 
 # Define My Package
-git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/molun/luci-app-adguardhome
-git clone https://github.com/fw876/helloworld.git                                   package/molun/luci-app-ssr-plus
-git clone https://github.com/vernesong/OpenClash.git                                package/molun/luci-app-openclash
+#git clone https://github.com/rufengsuixing/luci-app-adguardhome.git                 package/molun/luci-app-adguardhome
+#git clone https://github.com/fw876/helloworld.git                                   package/molun/luci-app-ssr-plus
+#git clone https://github.com/vernesong/OpenClash.git                                package/molun/luci-app-openclash
+git clone https://github.com/kenzok8/openwrt-packages.git package/molun/openwrt-packages
+git clone https://github.com/kenzok8/small.git package/molun/small
 
 # Define Default
 cat > package/lean/default-settings/files/zzz-default-settings <<-EOF
