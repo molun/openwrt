@@ -26,9 +26,7 @@ cat > package/lean/default-settings/files/zzz-default-settings <<-EOF
     # Others
     sed -i '/log-facility/d' /etc/dnsmasq.conf
     echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
-
     sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispatcher.lua
-
     echo 'hsts=0' > /root/.wgetrc
     
     rm -rf /tmp/luci*
