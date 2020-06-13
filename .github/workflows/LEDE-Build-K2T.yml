@@ -35,7 +35,7 @@ env:
   PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: true
+  UPLOAD_RELEASE: false
   UPLOAD_FIRMWARE: true
   #####################################################
 
