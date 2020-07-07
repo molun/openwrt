@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-B70
+name: LEDE-Build-RedmiAC2100
 
 # 触发条件
 on:
@@ -22,20 +22,20 @@ env:
   #####   2：编译第三方源码
   #####   3：编译官方源码 & 第三方 Package
   #####################################################
-  REPO_URL: https://github.com/openwrt/openwrt.git
-  REPO_BRANCH: v19.07.3
-  ## REPO_URL: https://github.com/coolsnowwolf/lede.git
-  ## REPO_BRANCH: master
+  ## REPO_URL: https://github.com/openwrt/openwrt.git
+  ## REPO_BRANCH: v19.07.3
+  REPO_URL: https://github.com/coolsnowwolf/lede.git
+  REPO_BRANCH: master
   ## REPO_URL: https://github.com/Lienol/openwrt.git
   ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
-  CONF_FILE: B70
-  PKG_LEAN: true
+  CONF_FILE: RedmiAC2100
+  PKG_LEAN: false
   PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: false
+  UPLOAD_RELEASE: true
   UPLOAD_FIRMWARE: true
   #####################################################
 
@@ -55,6 +55,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           docker rmi `docker images -q`
+          sudo swapoff /swapfile
           sudo rm -rf /swapfile /etc/apt/sources.list.d /usr/share/dotnet /usr/local/lib/android /opt/ghc /etc/mysql /etc/php
           sudo -E apt-get update
           sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
@@ -63,10 +64,12 @@ jobs:
           echo "======================="
           df -h
           echo "======================="
+
      # 下载源码
       - name: Clone Code
         run: |
           git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
      # 下载插件
       - name: Download Lean Package
         if: env.PKG_LEAN == 'true' && env.REPO_URL != 'https://github.com/coolsnowwolf/lede.git'
@@ -76,16 +79,20 @@ jobs:
           mkdir -p package/lean
           svn checkout https://github.com/coolsnowwolf/lede/trunk/package/lean/ package/lean
           sudo rm -rf package/lean/.svn/
+
           mkdir -p tools/ucl && wget -P tools/ucl https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/ucl/Makefile 
           mkdir -p tools/upx && wget -P tools/upx https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/upx/Makefile
+
           sed  -i '/tools-$(CONFIG_TARGET_orion_generic)/atools-y += ucl upx' tools/Makefile
           sed  -i '/dependencies/a\\$(curdir)/upx/compile := $(curdir)/ucl/compile' tools/Makefile
+
      # 下载插件
       - name: Download Lienol Package
         if: env.PKG_LIENOL == 'true' && env.REPO_URL != 'https://github.com/Lienol/openwrt.git'
         run: |
           cd openwrt
           echo "src-git Lienol https://github.com/Lienol/openwrt-package" >> feeds.conf.default
+
       # 自定插件
       - name: Download My Package
         run: |
@@ -109,6 +116,7 @@ jobs:
           cd openwrt
           ../script/$DIY1_FILE
           make defconfig
+
       # SSH连接
       - name: SSH Connection
         if: env.SSH_ACTION == 'true'
@@ -120,6 +128,7 @@ jobs:
           cd openwrt
           make download -j8
           find dl/ -size -1024c -exec rm -f {} \;
+
       # 编译固件
       - name: Compile Firmware
         id: compile
@@ -133,11 +142,12 @@ jobs:
           df -h
           echo "======================="
           echo "::set-output name=status::success"
+
      # 更新分支
       - name: Upload Branch
         if: env.UPLOAD_BRANCH == 'true' && steps.compile.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.openwrt }}
         run: |
           cd openwrt/bin
           zip -r OpenWrt_Packages.zip -s 100m packages
@@ -148,6 +158,7 @@ jobs:
           git add .
           git commit -m "Update OpenWrt_"$CONF_FILE
           git push --force --quiet https://$GITHUB_TOKEN@github.com/molun/OpenWrt.git HEAD:OpenWrt_$CONF_FILE
+
       # 准备固件
       - name: Organize Artifact
         if: steps.compile.outputs.status == 'success'
@@ -156,6 +167,7 @@ jobs:
           find ./targets/ -type d -name "packages" | xargs rm -rf {}
           zip -r OpenWrt_Firmware.zip targets
           echo ::set-env name=RELEASE_DATE::"$(TZ=UTC-8 date +"%Y.%m.%d")"
+
       # 上传固件
       - name: Upload Artifact
         uses: actions/upload-artifact@master
@@ -170,7 +182,7 @@ jobs:
         uses: actions/create-release@latest
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           tag_name: ${{ env.RELEASE_DATE }}_TAG
           release_name: OpenWrt_${{ env.CONF_FILE }}_${{ env.RELEASE_DATE }}
@@ -192,7 +204,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./openwrt/bin/OpenWrt_Firmware.zip

@@ -22,17 +22,17 @@ env:
   #####   2：编译第三方源码
   #####   3：编译官方源码 & 第三方 Package
   #####################################################
-  ## REPO_URL: https://github.com/openwrt/openwrt.git
-  ## REPO_BRANCH: v19.07.2
+  REPO_URL: https://github.com/openwrt/openwrt.git
+  REPO_BRANCH: v19.07.3
   ## REPO_URL: https://github.com/coolsnowwolf/lede.git
   ## REPO_BRANCH: master
-  REPO_URL: https://github.com/Lienol/openwrt.git
-  REPO_BRANCH: dev-master
+  ## REPO_URL: https://github.com/Lienol/openwrt.git
+  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
   CONF_FILE: HiWiFi_HC5962
-  PKG_LEAN: false
-  PKG_LIENOL: false
+  PKG_LEAN: true
+  PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
   UPLOAD_RELEASE: false
@@ -55,7 +55,6 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           docker rmi `docker images -q`
-          sudo swapoff /swapfile
           sudo rm -rf /swapfile /etc/apt/sources.list.d /usr/share/dotnet /usr/local/lib/android /opt/ghc /etc/mysql /etc/php
           sudo -E apt-get update
           sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
@@ -64,12 +63,10 @@ jobs:
           echo "======================="
           df -h
           echo "======================="
-
      # 下载源码
       - name: Clone Code
         run: |
           git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-
      # 下载插件
       - name: Download Lean Package
         if: env.PKG_LEAN == 'true' && env.REPO_URL != 'https://github.com/coolsnowwolf/lede.git'
@@ -79,20 +76,16 @@ jobs:
           mkdir -p package/lean
           svn checkout https://github.com/coolsnowwolf/lede/trunk/package/lean/ package/lean
           sudo rm -rf package/lean/.svn/
-
           mkdir -p tools/ucl && wget -P tools/ucl https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/ucl/Makefile 
           mkdir -p tools/upx && wget -P tools/upx https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/upx/Makefile
-
           sed  -i '/tools-$(CONFIG_TARGET_orion_generic)/atools-y += ucl upx' tools/Makefile
           sed  -i '/dependencies/a\\$(curdir)/upx/compile := $(curdir)/ucl/compile' tools/Makefile
-
      # 下载插件
       - name: Download Lienol Package
         if: env.PKG_LIENOL == 'true' && env.REPO_URL != 'https://github.com/Lienol/openwrt.git'
         run: |
           cd openwrt
           echo "src-git Lienol https://github.com/Lienol/openwrt-package" >> feeds.conf.default
-
       # 自定插件
       - name: Download My Package
         run: |
@@ -116,7 +109,6 @@ jobs:
           cd openwrt
           ../script/$DIY1_FILE
           make defconfig
-
       # SSH连接
       - name: SSH Connection
         if: env.SSH_ACTION == 'true'
@@ -128,7 +120,6 @@ jobs:
           cd openwrt
           make download -j8
           find dl/ -size -1024c -exec rm -f {} \;
-
       # 编译固件
       - name: Compile Firmware
         id: compile
@@ -142,7 +133,6 @@ jobs:
           df -h
           echo "======================="
           echo "::set-output name=status::success"
-
      # 更新分支
       - name: Upload Branch
         if: env.UPLOAD_BRANCH == 'true' && steps.compile.outputs.status == 'success'
@@ -158,7 +148,6 @@ jobs:
           git add .
           git commit -m "Update OpenWrt_"$CONF_FILE
           git push --force --quiet https://$GITHUB_TOKEN@github.com/molun/OpenWrt.git HEAD:OpenWrt_$CONF_FILE
-
       # 准备固件
       - name: Organize Artifact
         if: steps.compile.outputs.status == 'success'
@@ -167,7 +156,6 @@ jobs:
           find ./targets/ -type d -name "packages" | xargs rm -rf {}
           zip -r OpenWrt_Firmware.zip targets
           echo ::set-env name=RELEASE_DATE::"$(TZ=UTC-8 date +"%Y.%m.%d")"
-
       # 上传固件
       - name: Upload Artifact
         uses: actions/upload-artifact@master
