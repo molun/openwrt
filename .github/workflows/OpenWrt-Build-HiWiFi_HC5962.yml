@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-Redmi_AC2100
+name: OpenWrt-Build-HiWiFi_HC5962
 
 # 触发条件
 on:
@@ -27,10 +27,10 @@ env:
   ## REPO_URL: https://github.com/coolsnowwolf/lede.git
   ## REPO_BRANCH: master
   ## REPO_URL: https://github.com/Lienol/openwrt.git
-  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-led
+  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
-  CONF_FILE: Redmi_AC2100
+  CONF_FILE: HiWiFi_HC5962
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false

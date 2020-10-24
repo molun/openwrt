@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-Redmi_AC2100
+name: LEDE-Build-HC5962
 
 # 触发条件
 on:
@@ -22,20 +22,20 @@ env:
   #####   2：编译第三方源码
   #####   3：编译官方源码 & 第三方 Package
   #####################################################
-  REPO_URL: https://github.com/openwrt/openwrt.git
-  REPO_BRANCH: v19.07.4
-  ## REPO_URL: https://github.com/coolsnowwolf/lede.git
-  ## REPO_BRANCH: master
+  ## REPO_URL: https://github.com/openwrt/openwrt.git
+  ## REPO_BRANCH: v19.07.4
+  REPO_URL: https://github.com/coolsnowwolf/lede.git
+  REPO_BRANCH: master
   ## REPO_URL: https://github.com/Lienol/openwrt.git
-  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-led
+  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
-  CONF_FILE: Redmi_AC2100
-  PKG_LEAN: true
+  CONF_FILE: HC5962
+  PKG_LEAN: false
   PKG_LIENOL: true
   SSH_ACTION: false
   UPLOAD_BRANCH: true
-  UPLOAD_RELEASE: false
+  UPLOAD_RELEASE: true
   UPLOAD_FIRMWARE: true
   #####################################################
 
@@ -147,7 +147,7 @@ jobs:
           git config user.email "molun@github.com"
           git add .
           git commit -m "Update OpenWrt_"$CONF_FILE
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/molun/OpenWrt.git HEAD:OpenWrt_$CONF_FILE
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/molun/OpenWrt.git HEAD:LEDE_$CONF_FILE
       # 准备固件
       - name: Organize Artifact
         if: steps.compile.outputs.status == 'success'

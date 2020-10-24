@@ -1,7 +1,7 @@
 # This is free software, lisence use MIT.
 # Copyright (C) https://github.com/molun
 
-name: OpenWrt-Build-Redmi_AC2100
+name: OpenWrt-Build-x86_64
 
 # 触发条件
 on:
@@ -27,10 +27,10 @@ env:
   ## REPO_URL: https://github.com/coolsnowwolf/lede.git
   ## REPO_BRANCH: master
   ## REPO_URL: https://github.com/Lienol/openwrt.git
-  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-led
+  ## REPO_BRANCH: dev-master dev-19.07 dev-lean-lede
   DIY0_FILE: DIY0.sh
   DIY1_FILE: DIY1.sh
-  CONF_FILE: Redmi_AC2100
+  CONF_FILE: x86_64
   PKG_LEAN: true
   PKG_LIENOL: true
   SSH_ACTION: false
@@ -170,7 +170,7 @@ jobs:
         uses: actions/create-release@latest
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           tag_name: ${{ env.RELEASE_DATE }}_TAG
           release_name: OpenWrt_${{ env.CONF_FILE }}_${{ env.RELEASE_DATE }}
@@ -192,7 +192,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.openwrt }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./openwrt/bin/OpenWrt_Firmware.zip
