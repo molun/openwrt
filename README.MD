@@ -1,8 +1,7 @@
 # OpenWrt
 
 ## 简介：
-- 自用 OpenWrt 定制项目
-- 若 Fork 项目，请修改代码中自己的 TOKEN
+- 基于[【yfdoor/OpenWrt】](https://github.com/yfdoor/openwrt)的自用 OpenWrt 定制项目
 
 ## 功能：
 - 可以支持三种编译模式 
@@ -32,7 +31,10 @@
 ## 目录：
 - ### config.d：
   - 目录存放编译需要的 **config** 配置文件
-  - 默认使用 **x86_64** 配置文件
+  - 默认 **x86_64** 配置文件 用于**OpenWrt**官方源码
+  - 默认 **K2P** 配置文件 用于**Lean's lede**源码
+  - 默认 **B70** 配置文件 用于**Lean's lede**源码
+  - 默认 **HC5962** 配置文件 用于**Lienol**源码
 
 - ### script:
   - 目录存放需要执行的定制脚本
@@ -47,8 +49,10 @@
   - /target/linux/x86/Makefile：可定义对应平台默认安装的 packages（X86示例）
   
 ## 发布:
-  - [最新发布](https://github.com/yfdoor/OpenWrt/releases/latest)
-  
+  - [最新发布](https://github.com/molun/OpenWrt/releases/latest)
+ 
 ## 感谢：
   - [OpenWrt](https://github.com/openwrt/openwrt)
   - [Lean LEDE](https://github.com/coolsnowwolf/lede)
+  - [Lienol OpenWrt](https://github.com/Lienol/openwrt)
+  - [yfdoor OpenWrt](https://github.com/yfdoor/openwrt)
