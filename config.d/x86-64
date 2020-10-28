@@ -1,4 +1,3 @@
-
 # OpenWrt Configuration
 CONFIG_TARGET_x86=y
 CONFIG_TARGET_x86_64=y
@@ -19,8 +18,8 @@ CONFIG_TARGET_KERNEL_PARTSIZE=16
 CONFIG_TARGET_ROOTFS_PARTSIZE=496
 
 # Kernel build options
-CONFIG_KERNEL_BUILD_DOMAIN="yfdoor@github"
-CONFIG_KERNEL_BUILD_USER="yfdoor"
+CONFIG_KERNEL_BUILD_DOMAIN="molun@github"
+CONFIG_KERNEL_BUILD_USER="molun"
 
 # Base system
 # CONFIG_PACKAGE_dnsmasq is not set
